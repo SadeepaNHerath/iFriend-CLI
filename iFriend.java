@@ -1,5 +1,15 @@
 import java.time.*;
 import java.util.*;
+
+/**
+ * iFriend Contact Management System
+ * 
+ * A command-line application for managing contacts including adding,
+ * updating, deleting, searching and sorting functionality.
+ * 
+ * @version 1.0.0
+ * @author ICET Project Team
+ */
 class iFriend{
 	public static Scanner input=new Scanner(System.in);
 	public static int cusID =1,index=0;
@@ -9,6 +19,13 @@ class iFriend{
 	public static double tempsalary;
 	public static boolean in=false;
 	
+	/**
+	 * Inserts a new element at the end of a String array
+	 * 
+	 * @param ar The original String array
+	 * @param add The element to be added
+	 * @return A new array with the added element
+	 */
 	public static String[] inserts(String[] ar, String add) {
 		String[] temp = new String[ar.length+1];
 		System.arraycopy(ar, 0, temp, 0, ar.length);
@@ -16,6 +33,13 @@ class iFriend{
 		return temp;
 	}
 	
+	/**
+	 * Inserts a new element at the end of a double array
+	 * 
+	 * @param ar The original double array
+	 * @param add The element to be added
+	 * @return A new array with the added element
+	 */
 	public static double[] insertd(double[] ar, double add) {
 		double[] temp = new double[ar.length+1];
 		System.arraycopy(ar, 0, temp, 0, ar.length);
@@ -23,9 +47,18 @@ class iFriend{
 		return temp;
 	}
 	
+	/**
+	 * Application entry point
+	 * 
+	 * @param args Command line arguments (not used)
+	 */
 	public static void main(String args[]){
 		homepage();
 	}
+	
+	/**
+	 * Displays the main menu/homepage of the application
+	 */
 	public static void homepage(){
 		System.out.println("          /$$ /$$$$$$$$ /$$$$$$$  /$$$$$$ /$$$$$$$$ /$$   /$$ /$$$$$$$");
 		System.out.println("          |__/| $$_____/| $$__  $$|_  $$_/| $$_____/| $$$ | $$| $$__  $$");
@@ -52,6 +85,10 @@ class iFriend{
 		System.out.println("        [06] Exit\n\n");
 		homepageOpt();
 	}
+	
+	/**
+	 * Handles user selection from the main menu
+	 */
 	public static void homepageOpt(){
 		System.out.print(" Enter an option to continue -> ");
 		int opt=input.nextInt();
@@ -69,6 +106,11 @@ class iFriend{
 			}
 		}
 	}
+	
+	/**
+	 * Clears the console screen for better user experience
+	 * Handles both Windows and Unix-based systems
+	 */
 	public final static void clearConsole() {
 		try {
 			final String os = System.getProperty("os.name");
@@ -85,6 +127,13 @@ class iFriend{
 			System.err.println("Error clearing console: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Handles user confirmation for various operations
+	 * Controls application workflow based on user's response
+	 * 
+	 * @param method The operation being performed
+	 */
 	public static void again(String method){
 		System.out.printf(" Do you want to %s (Y/N): ",method);
 		char yn=input.next().charAt(0);
@@ -173,6 +222,10 @@ class iFriend{
 			}
 		}
 	}
+	
+	/**
+	 * Validates user input for date of birth in YYYY-MM-DD format
+	 */
 	public static void dobCheck(){
 		method="input birthday again";
 		System.out.print(" B'Day(YYYY-MM-DD): ");
@@ -198,6 +251,11 @@ class iFriend{
 			}
 		}
 	}		
+	
+	/**
+	 * Validates phone number input - must be 10 digits and start with '0'
+	 * Also checks for duplicate phone numbers
+	 */
 	public static void phoneCheck(){
 		method="add phone number again";
 		System.out.print(" Phone Number     : ");
@@ -218,6 +276,10 @@ class iFriend{
 			tempphone=phone;
 		}
 	}
+	
+	/**
+	 * Validates salary input - must be greater than zero
+	 */
 	public static void salaryCheck(){
 		method="input salary again";
 		System.out.print(" Salary           : ");
@@ -235,6 +297,11 @@ class iFriend{
 			tempsalary=salary;
 		}	
 	}
+	
+	/**
+	 * Handles the contact addition process
+	 * Collects and validates all required contact information
+	 */
 	public static void addContact(){
 		input.nextLine();
 		method="add another Contact";
@@ -264,6 +331,14 @@ class iFriend{
         cusID++;
         again(method);
 	}
+	
+	/**
+	 * Searches for an exact match in a String array
+	 * 
+	 * @param ar The array to search in
+	 * @param name The value to search for
+	 * @return Index of the first match, or -1 if not found
+	 */
 	public static int search(String[] ar, String name){
 		for (int i = 0; i < ar.length; i++){
 			if(name.toLowerCase().equals(ar[i].toLowerCase())){
@@ -272,6 +347,15 @@ class iFriend{
 		}
 		return -1;
 	 }
+	
+	/**
+	 * Searches for an exact match in a String array, returning the last match position
+	 * Used to check for multiple records with the same name
+	 * 
+	 * @param ar The array to search in
+	 * @param name The value to search for
+	 * @return Index of the last match, or -1 if not found
+	 */
 	public static int namesearch(String[] ar, String name){
 		int place=-1;
 		for (int i=0;i<ar.length;i++){
@@ -281,6 +365,10 @@ class iFriend{
 		}
 		return place;
 	}
+	
+	/**
+	 * Displays contact details for the current index
+	 */
 	public static void printContact(){
 		System.out.printf("%10sContact ID        : %s\n"," ",cusIDarr[index]);
 		System.out.printf("%10sName              : %s\n"," ",namearr[index]);
@@ -289,6 +377,10 @@ class iFriend{
 		System.out.printf("%10sSalary            : %.1f\n"," ",salaryarr[index]);
 		System.out.printf("%10sB'Day(YYYY-MM-DD) : %s\n\n"," ",dobarr[index]);
 	}
+	
+	/**
+	 * Handles the contact update options
+	 */
 	public static void updateOpt(){
 		System.out.print(" Enter an option to continue -> ");
 		int option=input.nextInt();
@@ -330,6 +422,10 @@ class iFriend{
 			}
 		}
 	}
+	
+	/**
+	 * Common search functionality used by multiple operations
+	 */
 	public static void searchC(){
 		input.nextLine();
 		System.out.print("Search Contact by Name or Phone Number - ");
@@ -350,6 +446,10 @@ class iFriend{
 				again(method);
 		}
 	}
+	
+	/**
+	 * Handles the contact search process
+	 */
 	public static void searchContact(){
 		method="search another Contact";
 		System.out.println(" +------------------------------------------------------+");
@@ -358,6 +458,13 @@ class iFriend{
 		searchC();
 		again(method);
 	}
+	
+	/**
+	 * Removes an element from a String array at the current index
+	 * 
+	 * @param ar The array to modify
+	 * @return A new array with the element removed
+	 */
 	public static String[] removed(String[] ar){
 		String[] temp = new String[ar.length-1];
 		System.arraycopy(ar, 0, temp, 0, index);
@@ -365,12 +472,22 @@ class iFriend{
 		return temp;
 	}
 	
+	/**
+	 * Removes an element from a double array at the current index
+	 * 
+	 * @param ar The array to modify
+	 * @return A new array with the element removed
+	 */
 	public static double[] removed(double[] ar){
 		double[] temp = new double[ar.length-1];
 		System.arraycopy(ar, 0, temp, 0, index);
 		System.arraycopy(ar, index+1, temp, index, temp.length-index);
 		return temp;
 	}
+	
+	/**
+	 * Handles the contact deletion process
+	 */
 	public static void deleteContact(){
 		method="delete another Contact";
 		System.out.println(" +------------------------------------------------------+");
@@ -380,6 +497,10 @@ class iFriend{
 		method="delete this contact";
 		again(method);
 	}
+	
+	/**
+	 * Handles the contact update process
+	 */
 	public static void updateContact(){
 		method="update another Contact";
 		System.out.println(" +------------------------------------------------------+");
@@ -397,6 +518,10 @@ class iFriend{
 		System.out.printf("\n%9s Contact has been updated Successfully...\n\n\n"," " );
 		again(method);
 	}
+	
+	/**
+	 * Displays all contacts in a formatted table
+	 */
 	public static void printSort(){
 		System.out.println("+-------------------------------------------------------------------------------------------------+");
 		System.out.println("| Contact ID |       Name       | Phone Number |     Company     |     Salary     |    Birthday   |");
@@ -409,6 +534,10 @@ class iFriend{
 		
 		
 	}
+	
+	/**
+	 * Handles contact sorting options
+	 */
 	public static void sortContact(){
 		method="input sorting option again";
 		System.out.println(" +------------------------------------------------------+");
@@ -429,6 +558,13 @@ class iFriend{
 			}
 		}
 	}
+	
+	/**
+	 * Swaps two contact records for sorting purposes
+	 * 
+	 * @param i First record index
+	 * @param j Second record index
+	 */
 	public static void sort(int i,int j){
 		double tempd=salaryarr[i];
 		salaryarr[i]=salaryarr[j];
@@ -449,6 +585,10 @@ class iFriend{
 		cusIDarr[i]=cusIDarr[j];
 		cusIDarr[j]=temps;
 	}
+	
+	/**
+	 * Sorts contacts by their customer ID
+	 */
 	public static void cusIDSort(){
 		for (int i = 1; i < cusIDarr.length; i++){
 			for(int j=0; j<i; j++){
@@ -458,6 +598,10 @@ class iFriend{
 			}
 		}
 	}
+	
+	/**
+	 * Sorts contacts alphabetically by name
+	 */
 	public static void nameSort(){
 		System.out.printf("%8s+------------------------------------------------------+\n"," ");
 		System.out.printf("%8s|              List Contact by Name                    |\n"," ");
@@ -494,6 +638,10 @@ class iFriend{
 		cusIDSort();
 		again(method);
 	}
+	
+	/**
+	 * Sorts contacts by salary (ascending order)
+	 */
 	public static void salarySort(){
 		System.out.printf("%8s+------------------------------------------------------+\n"," ");
 		System.out.printf("%8s|              List Contact by Salary                  |\n"," ");
@@ -510,6 +658,10 @@ class iFriend{
 		cusIDSort();
 		again(method);
 	}
+	
+	/**
+	 * Sorts contacts by date of birth (chronological order)
+	 */
 	public static void dobSort(){
 		System.out.printf("%8s+------------------------------------------------------+\n"," ");
 		System.out.printf("%8s|            List Contact by Birthday                  |\n"," ");
