@@ -9,22 +9,20 @@ class iFriend{
 	public static double tempsalary;
 	public static boolean in=false;
 	
-	public static String[]  inserts(String[] ar,String add){
-		String[] temp=new String[ar.length+1];
-		for (int i=0;i<ar.length;i++){
-			temp[i]=ar[i];
-		}
-		temp[temp.length-1]=add;
+	public static String[] inserts(String[] ar, String add) {
+		String[] temp = new String[ar.length+1];
+		System.arraycopy(ar, 0, temp, 0, ar.length);
+		temp[temp.length-1] = add;
 		return temp;
 	}
-	public static double[]  insertd(double[] ar,double  add){
-		double[] temp=new double[ar.length+1];
-		for (int i=0;i<ar.length;i++){
-			temp[i]=ar[i];
-		}
-		temp[temp.length-1]=add;
+	
+	public static double[] insertd(double[] ar, double add) {
+		double[] temp = new double[ar.length+1];
+		System.arraycopy(ar, 0, temp, 0, ar.length);
+		temp[temp.length-1] = add;
 		return temp;
 	}
+	
 	public static void main(String args[]){
 		homepage();
 	}
@@ -52,23 +50,23 @@ class iFriend{
 		System.out.println("        [04] SEARCH Contacts\n");
 		System.out.println("        [05] LIST Contacts\n");
 		System.out.println("        [06] Exit\n\n");
-		homepageopt();
+		homepageOpt();
 	}
-	public static void homepageopt(){
-		System.out.print(" Enter an otion to continue -> ");
+	public static void homepageOpt(){
+		System.out.print(" Enter an option to continue -> ");
 		int opt=input.nextInt();
-		switch (opt){
-			case 1: clearConsole(); addcontact();break;
-			case 2: clearConsole(); updatecontact();break;
-			case 3: clearConsole(); deleteContact();break;
-			case 4: clearConsole(); searchContact();break;
-			case 5: clearConsole(); sortContact();break;
-			case 6: System.exit(0);break;
-			default:
+		switch (opt) {
+			case 1 -> { clearConsole(); addContact(); }
+			case 2 -> { clearConsole(); updateContact(); }
+			case 3 -> { clearConsole(); deleteContact(); }
+			case 4 -> { clearConsole(); searchContact(); }
+			case 5 -> { clearConsole(); sortContact(); }
+			case 6 -> System.exit(0);
+			default -> {
 				method="input option again";
-				System.out.printf("\n%10sInvalid phone number...\n\n"," ");
+				System.out.printf("\n%10sInvalid option selection...\n\n"," ");
 				again(method);
-				break;
+			}
 		}
 	}
 	public final static void clearConsole() {
@@ -80,45 +78,46 @@ class iFriend{
 				System.out.print("\033[H\033[2J");
 				System.out.flush();
 			}
-		} catch (final Exception e) {
-			e.printStackTrace();
-			// Handle any exceptions.
+		} catch (final InterruptedException e) {
+			Thread.currentThread().interrupt();
+			System.err.println("Console clear operation was interrupted");
+		} catch (final java.io.IOException e) {
+			System.err.println("Error clearing console: " + e.getMessage());
 		}
 	}
 	public static void again(String method){
 		System.out.printf(" Do you want to %s (Y/N): ",method);
 		char yn=input.next().charAt(0);
-		switch (yn){
-			case 'y':
-			case 'Y':
-				switch (method){
+		switch (yn) {
+			case 'y', 'Y' -> {
+				switch (method) {
 					case "add another Contact" :
 						clearConsole();
-						addcontact();
+						addContact();
 						break;
 					case "input birthday again":
 						System.out.print("\033[4A");
 						System.out.print("\033[0J");
-						dobcheck();
+						dobCheck();
 						break;
 					case "add phone number again":
 						System.out.print("\033[5A");
 						System.out.print("\033[0J");
-						phonecheck();
+						phoneCheck();
 						break;
 					case "input salary again":
 						System.out.print("\033[5A");
 						System.out.print("\033[0J");
-						salarycheck();
+						salaryCheck();
 						break;
 					case "update another Contact":
 						clearConsole();
-						updatecontact();
+						updateContact();
 						break;
 					case "input update option again":
 						System.out.print("\033[5A");
 						System.out.print("\033[0J");
-						updateopt();
+						updateOpt();
 						break;
 					case "input option again":
 						System.out.print("\033[5A");
@@ -136,6 +135,7 @@ class iFriend{
 					case "input sorting option again" :
 						clearConsole();
 						sortContact();
+						break;
 					case "delete this contact":
 						System.out.printf("\n%9s Customer has been deleted Successfully...\n\n\n"," " );
 						cusIDarr=removed(cusIDarr);
@@ -152,26 +152,28 @@ class iFriend{
 						homepage();
 						break;
 				}
-				break;
-			case 'n':
-			case 'N':
-				switch (method){
+			}
+			case 'n', 'N' -> {
+				switch (method) {
 					case "go Home Page":
-						clearConsole();sortContact();break;
+						clearConsole();
+						sortContact();
+						break;
 					default:
 						clearConsole();
 						homepage();
 						break;
 				}
-			default:
+			}
+			default -> {
 				System.out.print("\033[4A");
 				System.out.print("\033[0J");
 				System.out.printf("\n%10sInvalid input...\n\n"," ");
 				again(method);
-				break;
+			}
 		}
 	}
-	public static void dobcheck(){
+	public static void dobCheck(){
 		method="input birthday again";
 		System.out.print(" B'Day(YYYY-MM-DD): ");
 		if (in==true){
@@ -196,7 +198,7 @@ class iFriend{
 			}
 		}
 	}		
-	public static void phonecheck(){
+	public static void phoneCheck(){
 		method="add phone number again";
 		System.out.print(" Phone Number     : ");
 		if (in==true){
@@ -216,7 +218,7 @@ class iFriend{
 			tempphone=phone;
 		}
 	}
-	public static void salarycheck(){
+	public static void salaryCheck(){
 		method="input salary again";
 		System.out.print(" Salary           : ");
 		if (in==true){
@@ -233,7 +235,7 @@ class iFriend{
 			tempsalary=salary;
 		}	
 	}
-	public static void addcontact(){
+	public static void addContact(){
 		input.nextLine();
 		method="add another Contact";
 		System.out.println(" +------------------------------------------------------+");
@@ -244,13 +246,13 @@ class iFriend{
 		System.out.print(" Name             : ");
 		String name=input.nextLine();
 		tempname=name;
-		phonecheck();
+		phoneCheck();
 		input.nextLine();
 		System.out.print(" Company Name     : ");
 		String Cname=input.nextLine();
 		tempCname=Cname;
-		salarycheck();
-		dobcheck();
+		salaryCheck();
+		dobCheck();
 		System.out.printf("\n%9s Contact has been added Successfully...\n\n\n"," " );
 		method="add another Contact";
 		cusIDarr=inserts(cusIDarr,tempcusID);
@@ -287,45 +289,45 @@ class iFriend{
 		System.out.printf("%10sSalary            : %.1f\n"," ",salaryarr[index]);
 		System.out.printf("%10sB'Day(YYYY-MM-DD) : %s\n\n"," ",dobarr[index]);
 	}
-	public static void updateopt(){
+	public static void updateOpt(){
 		System.out.print(" Enter an option to continue -> ");
 		int option=input.nextInt();
 		in=true;
 		switch (option) {
-			case 1:
+			case 1 -> {
 				System.out.println("  Update Name \n =============\n");
 				System.out.print("Input new name - ");
 				input.nextLine();
 				tempname=input.nextLine();
 				namearr[index]=tempname;
 				in=false;
-				break;
-			case 2:
+			}
+			case 2 -> {
 				System.out.println("  Update Phone Number \n =====================\n");
-				phonecheck();
+				phoneCheck();
 				phonearr[index]=tempphone;
 				in=false;
-				break;
-			case 3:
+			}
+			case 3 -> {
 				System.out.println("  Update Company Name \n =====================\n");
 				System.out.print("Input new company name - ");
 				input.nextLine();
 				tempCname=input.nextLine();
 				Cnamearr[index]=tempCname;
 				in=false;
-				break;
-			case 4:
+			}
+			case 4 -> {
 				System.out.println("  Update Salary \n ===============\n");
-				salarycheck();
+				salaryCheck();
 				salaryarr[index]=tempsalary;
 				in=false;
-				break;
-			default:
+			}
+			default -> {
 				method="input update option again";
-				System.out.printf("\n%10sInvalid phone number...\n\n"," ");
+				System.out.printf("\n%10sInvalid option selection...\n\n"," ");
 				again(method);
 				in=false;
-				break;
+			}
 		}
 	}
 	public static void searchC(){
@@ -357,23 +359,16 @@ class iFriend{
 		again(method);
 	}
 	public static String[] removed(String[] ar){
-		String[] temp=new String[ar.length-1];
-		for (int i=0;i<index;i++){
-			temp[i]=ar[i];
-		}
-		for (int i=index;i<temp.length;i++){
-			temp[i]=ar[i+1];
-		}
+		String[] temp = new String[ar.length-1];
+		System.arraycopy(ar, 0, temp, 0, index);
+		System.arraycopy(ar, index+1, temp, index, temp.length-index);
 		return temp;
 	}
+	
 	public static double[] removed(double[] ar){
-		double[] temp=new double[ar.length-1];
-		for (int i=0;i<index;i++){
-			temp[i]=ar[i];
-		}
-		for (int i=index;i<temp.length;i++){
-			temp[i]=ar[i+1];
-		}
+		double[] temp = new double[ar.length-1];
+		System.arraycopy(ar, 0, temp, 0, index);
+		System.arraycopy(ar, index+1, temp, index, temp.length-index);
 		return temp;
 	}
 	public static void deleteContact(){
@@ -385,7 +380,7 @@ class iFriend{
 		method="delete this contact";
 		again(method);
 	}
-	public static void updatecontact(){
+	public static void updateContact(){
 		method="update another Contact";
 		System.out.println(" +------------------------------------------------------+");
 		System.out.println(" |                UPDATE Contact                        |");
@@ -396,10 +391,10 @@ class iFriend{
 		System.out.printf("%10s[02] Phone Number\n"," ");
 		System.out.printf("%10s[03] Company Name\n"," ");
 		System.out.printf("%10s[04] Salary\n\n"," ");
-		updateopt();
+		updateOpt();
 		method="update another Contact";
 		in=false;
-		System.out.printf("\n%9s Contact has been added Successfully...\n\n\n"," " );
+		System.out.printf("\n%9s Contact has been updated Successfully...\n\n\n"," " );
 		again(method);
 	}
 	public static void printSort(){
@@ -422,16 +417,16 @@ class iFriend{
 		System.out.printf("\n%10s[01] Sorting by Name\n\n"," ");
 		System.out.printf("%10s[02] Sorting by Salary\n\n"," ");
 		System.out.printf("%10s[03] Sorting by Birthday\n\n"," ");
-		System.out.print(" Enter an otion to continue -> ");
+		System.out.print(" Enter an option to continue -> ");
 		int opt=input.nextInt();
-		switch (opt){
-			case 1: clearConsole(); nameSort();break;
-			case 2: clearConsole(); salarySort();break;
-			case 3: clearConsole(); dobSort();break;
-			default:
+		switch (opt) {
+			case 1 -> { clearConsole(); nameSort(); }
+			case 2 -> { clearConsole(); salarySort(); }
+			case 3 -> { clearConsole(); dobSort(); }
+			default -> {
 				System.out.printf("\n%10sInvalid option input...\n\n"," ");
 				again(method);
-				break;
+			}
 		}
 	}
 	public static void sort(int i,int j){
@@ -469,29 +464,32 @@ class iFriend{
 		System.out.printf("%8s+------------------------------------------------------+\n\n\n\n"," ");
 		method="go Home Page";
 		int len=0;
-		do{
-				for (int i = 1; i < namearr.length; i++){
-				L2:for(int j=0; j<i; j++){
-					if (namearr[i].length()>namearr[j].length()){
-						len=namearr[j].length();
-					}else{
-						len=namearr[i].length();
-					}
-					L1:for (int k = 0; k < len; k++)
-					{
-						if(namearr[i].toLowerCase().charAt(k)<namearr[j].toLowerCase().charAt(k)){
-							sort(i,j);
-							continue L2;
-						}else if(namearr[i].toLowerCase().charAt(k)==namearr[j].toLowerCase().charAt(k)) {
-							continue L1;
-						}else{
-							break L1;
-						}
+		for (int i = 1; i < namearr.length; i++) {
+			for(int j=0; j<i; j++) {
+				if (namearr[i].length() > namearr[j].length()) {
+					len = namearr[j].length();
+				} else {
+					len = namearr[i].length();
+				}
+				
+				boolean shouldContinueOuter = false;
+				for (int k = 0; k < len; k++) {
+					if(namearr[i].toLowerCase().charAt(k) < namearr[j].toLowerCase().charAt(k)) {
+						sort(i,j);
+						shouldContinueOuter = true;
+						break;
+					} else if(namearr[i].toLowerCase().charAt(k) == namearr[j].toLowerCase().charAt(k)) {
+						continue;
+					} else {
+						break;
 					}
 				}
+				
+				if (shouldContinueOuter) {
+					continue;
+				}
 			}
-			break;
-		}while(true);
+		}
 		printSort();
 		cusIDSort();
 		again(method);
